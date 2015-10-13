@@ -1,2 +1,2 @@
 # JavaReflection
-A demonstration of Java's Inspection class on an object defined at runtime
+A demonstration of Java's Reflection libraries on an object defined at runtime
