@@ -9,7 +9,7 @@ Created By: Jordan Kidney
 Created on:  Oct 23, 2005
 Last Updated: Oct 23, 2005
 ========================================================================*/
-
+ 
 import java.lang.reflect.*;
 
 public class Asst2TestDriver
@@ -19,53 +19,53 @@ public class Asst2TestDriver
     public Asst2TestDriver(String ObjInspectorName, boolean recursive)
 	throws Exception
     {
-	this.recursive=recursive;
-	setObjectInspectorInfo(ObjInspectorName);
+		this.recursive=recursive;
+		setObjectInspectorInfo(ObjInspectorName);
     }
     //--------------------------------------------------------------------
     public void setObjectInspectorInfo(String ObjectInspectorName)
 	throws Exception
     {
-	Class objInspectClass=null;
-	try
-	    {
-		objInspectClass = Class.forName(ObjectInspectorName);
-		ObjInspector = objInspectClass.newInstance();
-	    }
-	catch(Exception e) 
-	    {
-		throw new Exception("Unable create instance of your object inspector");
-	    }
+		Class objInspectClass=null;
+		try
+			{
+				objInspectClass = Class.forName(ObjectInspectorName);
+				ObjInspector = objInspectClass.newInstance();
+			}
+		catch(Exception e) 
+			{
+				throw new Exception("Unable create instance of your object inspector");
+			}
 
-	// get reference to inspect method
-	try
-	    {
-		Class[] param = { Object.class, boolean.class };
-		inspectionMethod = objInspectClass.getDeclaredMethod("inspect",param);
-	    }
-	catch(Exception e) 
-	    {
-		throw new Exception("Unable to find required method: public void inspect(Object obj,boolean recursive)");
-	    }
+		// get reference to inspect method
+		try
+			{
+				Class[] param = { Object.class, boolean.class };
+				inspectionMethod = objInspectClass.getDeclaredMethod("inspect",param);
+			}
+		catch(Exception e) 
+			{
+				throw new Exception("Unable to find required method: public void inspect(Object obj,boolean recursive)");
+			}
     }
     //--------------------------------------------------------------------
     public void runTest(Object testObj) throws Exception
     {
-	try
-	    {
-		System.out.println("======================================================");
-		System.out.println("Running Test: " + testObj);
-		Object[] param = { testObj, new Boolean(recursive) };
-		inspectionMethod.invoke(ObjInspector, param); 
-		System.out.println("======================================================");
-	    }
-	catch(Exception e)
-	    {
-		
-		e.printStackTrace();
-		throw new Exception("unable to compleatly run test");
-	    
-	    }
+		try
+			{
+				System.out.println("======================================================");
+				System.out.println("Running Test: " + testObj);
+				Object[] param = { testObj, new Boolean(recursive) };
+				inspectionMethod.invoke(ObjInspector, param); 
+				System.out.println("======================================================");
+			}
+		catch(Exception e)
+			{
+			
+				e.printStackTrace();
+				throw new Exception("unable to compleatly run test");
+			
+			}
     }
     //------- Fields -----------------------------------------------------
     private Object ObjInspector = null;

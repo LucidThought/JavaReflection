@@ -3,8 +3,8 @@ import java.lang.Class;
 
 public class Inspector
 {
-	public static void main(String args[])
+	public void inspect(Object obj, boolean recursive)
 	{
-
+		Class ObjectClass = new Class(obj);
 	}
 }
