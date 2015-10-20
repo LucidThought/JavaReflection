@@ -3,8 +3,17 @@ import java.lang.Class;
 
 public class Inspector
 {
+	public Class objectClass = null;
+	
 	public void inspect(Object obj, boolean recursive)
 	{
-		Class ObjectClass = new Class(obj);
+		try
+		{
+			objectClass = Class.forName(obj);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
