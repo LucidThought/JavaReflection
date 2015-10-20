@@ -9,7 +9,7 @@ public class Inspector
 	{
 		try
 		{
-			objectClass = Class.forName(obj);
+			objectClass = obj.getClass();
 		}
 		catch(Exception e)
 		{
