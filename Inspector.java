@@ -13,10 +13,13 @@ public class Inspector
 		{
 			objectClass = obj.getClass();
 			System.out.println("-= Class Name: " + objectClass.getName());
+
 			Class superClass = objectClass.getSuperclass();
 			System.out.println("-= SuperClass Name: " + superClass.getName());
+
 			Class[] ifList = objectClass.getInterfaces();
 			System.out.println("-= Interfaces: " + Arrays.asList(ifList));
+
 			Constructor[] constructors = objectClass.getDeclaredConstructors();
 			System.out.println("-= Constructors: ");
 			for (int c = 0; c < constructors.length; c++)
@@ -25,6 +28,7 @@ public class Inspector
 				System.out.println("\tConstructor["+c+"] Parameters: " + listTypes(constructParams));
 				System.out.println("\tConstructor["+c+"] Modifiers: " + listModifiers(constructors[c].getModifiers()));
 			}
+
 			Method[] myMethods = objectClass.getMethods();
 			System.out.println("-= Methods: ");
 			Class returnType;
