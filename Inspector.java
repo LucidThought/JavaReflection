@@ -18,7 +18,7 @@ public class Inspector
 			System.out.println("-= SuperClass Name: " + superClass.getName());
 			if (!superClass.getName().equals("java.lang.Object"))
 			{
-				System.out.println("\n--------------------SuperClass of " + objectClass.getName() + "--------------------\n");
+				System.out.println("\n--------------------SuperClass of " + objectClass.getName() + "--------------------\n"); 
 
 				System.out.println("\n--------------------End of SuperClass --------------------\n");
 			}
