@@ -19,6 +19,23 @@ public class Inspector
 
 			Class[] ifList = objectClass.getInterfaces();
 			System.out.println("-= Interfaces: " + Arrays.asList(ifList));
+			
+			Field[] myFields = objectClass.getDeclaredFields();
+			System.out.println("-= Fields: ");
+			for(int f = 0; f < myFields.length; f++)
+			{
+				if (!myFields[f].isAccessible())
+					myFields[f].setAccessible(true);
+				System.out.println("\t" + myFields[f].toString() + " " + myFields[f].getType().getSimpleName() + " ");
+				if(!myFields[f].getType().isPrimitive())
+				{
+					//System.out.println(myFields[f].getType());
+				}
+				else
+				{
+					//System.out.println(myFields[f].get(myFields[f].getType()));
+				}
+			}
 
 			Constructor[] constructors = objectClass.getDeclaredConstructors();
 			System.out.println("-= Constructors: ");
@@ -48,6 +65,7 @@ public class Inspector
 		}
 		catch(Exception e)
 		{
+			System.out.println("");
 			e.printStackTrace();
 		}
 		
