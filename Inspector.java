@@ -33,7 +33,7 @@ public class Inspector
 				}
 				else
 				{
-					System.out.println("\t\tValue: " + myFields[f].get(myFields[f].getType().toString()));
+					System.out.println("\t\tValue: " + myFields[f].get(obj));
 				}
 			}
 
