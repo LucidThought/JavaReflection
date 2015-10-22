@@ -16,6 +16,10 @@ public class Inspector
 
 			Class superClass = objectClass.getSuperclass();
 			System.out.println("-= SuperClass Name: " + superClass.getName());
+			if (!superClass.getName().equals("java.lang.Object"))
+			{
+				System.out.println("--------------------SuperClass of " + superClass.getName() + "--------------------");
+			}
 
 			Class[] ifList = objectClass.getInterfaces();
 			System.out.println("-= Interfaces: " + Arrays.asList(ifList));
