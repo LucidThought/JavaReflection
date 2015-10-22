@@ -26,14 +26,14 @@ public class Inspector
 			{
 				if (!myFields[f].isAccessible())
 					myFields[f].setAccessible(true);
-				System.out.println("\t" + myFields[f].toString() + " " + myFields[f].getType().getSimpleName() + " ");
+				System.out.println("\t" + Modifier.toString(myFields[f].getModifiers()) + " " + myFields[f].getType().getSimpleName() + " " + myFields[f].getName());
 				if(!myFields[f].getType().isPrimitive())
 				{
-					//System.out.println(myFields[f].getType());
+					System.out.println("\t\tHash Code: " + myFields[f].hashCode());
 				}
 				else
 				{
-					//System.out.println(myFields[f].get(myFields[f].getType()));
+					System.out.println("\t\tValue: " + myFields[f].get(myFields[f].getType().toString()));
 				}
 			}
 
