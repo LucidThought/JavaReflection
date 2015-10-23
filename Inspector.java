@@ -32,16 +32,14 @@ public class Inspector
 					if(!superClass.getSuperclass().getName().equals("java.lang.Object"))
 					{
 						System.out.println("\n----------------SuperClass of " + superClass.getName() + "----------------\n");
-						Object superSuperClassObject = superClass.getSuperclass().newInstance();
-						inspect(superSuperClassObject, recursive);
+						inspectSuperClass(superClass.getSuperclass(), recursive);
 
 						System.out.println("\n----------------End of SuperClass----------------\n");
 					}
 				}
 				else
 				{
-					Object superClassObject = superClass.newInstance();
-					inspect(superClassObject, recursive);
+					inspectSuperClass(superClass, recursive);
 				}
 				System.out.println("\n--------------------End of SuperClass--------------------\n");
 			}
@@ -103,7 +101,15 @@ public class Inspector
 
 	public void inspectSuperClass(Class superClass, boolean recursive)
 	{
-
+		try
+		{
+			Object superSuperClass = superClass.newInstance();
+			inspect(superSuperClass,recursive);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public String listModifiers(int modNum)
