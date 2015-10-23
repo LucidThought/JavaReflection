@@ -7,12 +7,13 @@ import java.util.ArrayList;
 public class Inspector
 {
 
-	public ArrayList<Class> visited = new ArrayList<Class>();
+
 	
 	public void inspect(Object obj, boolean recursive)
 	{
 		try
 		{
+			ArrayList<Class> visited = new ArrayList<Class>();
 			Class objectClass = obj.getClass();
 			if(objectClass.isArray())
 			{
@@ -23,11 +24,12 @@ public class Inspector
 			printSuperClass(objectClass, recursive);
 			
 			listInterfaces(objectClass);
-			
-			listFields(objectClass, obj);
+
+			Field[] myFields = objectClass.getDeclaredFields();
+			listFields(myFields, obj, recursive);
 
 			listConstructors(objectClass);
-
+			System.out.println("-= Methods: ");
 			showMethods(objectClass);
 		}
 		catch(Exception e)
@@ -48,11 +50,15 @@ public class Inspector
 		System.out.println("-= SuperClass Name: " + superClass.getName());
 		if (!superClass.getName().equals("java.lang.Object"))
 		{
-			System.out.println("\n--------------------SuperClass of " + objectClass.getName() + "--------------------\n"); 
+			System.out.println("\n--------------------SuperClass of " + objectClass.getName() + " (" + superClass.getName() + ") --------------------\n"); 
 			if(Modifier.isAbstract(superClass.getModifiers()))
 			{
 				System.out.println("The SuperClass " + superClass.getName() + " is Abstract,\n It's Methods are included inside of " + objectClass.getName() + "'s Methods");
+				// Show Interfaces
 				System.out.println(superClass.getName() + "'s Interfaces: " + Arrays.asList(superClass.getInterfaces()));
+				for(Class c : superClass.getInterfaces()) {
+					showInterface(c); }
+
 				if(!superClass.getSuperclass().getName().equals("java.lang.Object"))
 				{
 					System.out.println("\n----- SuperClass of the Abstract SuperClass " + superClass.getName() + " -----\n");
@@ -71,17 +77,24 @@ public class Inspector
 	public void listInterfaces(Class objectClass)
 	{
 		Class[] ifList = objectClass.getInterfaces();
-		if(ifList.length > 0)
+		if(ifList.length > 0) {
 			System.out.println("-= Interfaces: " + Arrays.asList(ifList));
+			for (int ifc = 0 ; ifc < ifList.length ; ifc++) {
+			showInterface(ifList[ifc]); } }
 		else
 			System.out.println("-= Interfaces: NONE");
 	}
 
-	public void listFields(Class objectClass, Object obj)
+	public void showInterface(Class iface)
+	{
+		System.out.println(":: Interface " + iface.getName() + "'s Methods ::");
+		showMethods(iface);
+	}
+
+	public void listFields(Field[] myFields, Object obj, boolean recursive)
 	{
 		try
 		{
-			Field[] myFields = objectClass.getDeclaredFields();
 			System.out.println("-= Fields: ");
 			if(myFields.length == 0)
 				System.out.println("\t::No Fields Found::");
@@ -121,7 +134,7 @@ public class Inspector
 	public void showMethods(Class objectClass)
 	{
 		Method[] myMethods = objectClass.getMethods();
-		System.out.println("-= Methods: ");
+
 		Class returnType;
 		for(int i=0; i<myMethods.length; i++)
 		{
