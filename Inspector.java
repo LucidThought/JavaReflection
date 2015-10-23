@@ -22,8 +22,7 @@ public class Inspector
 			
 			printSuperClass(objectClass, recursive);
 			
-			Class[] ifList = objectClass.getInterfaces();
-			System.out.println("-= Interfaces: " + Arrays.asList(ifList));
+			listInterfaces(objectClass);
 			
 			Field[] myFields = objectClass.getDeclaredFields();
 			System.out.println("-= Fields: ");
@@ -108,7 +107,14 @@ public class Inspector
 		}
 	}
 	
-	
+	public void listInterfaces(Class objectClass)
+	{
+		Class[] ifList = objectClass.getInterfaces();
+		if(ifList.length > 0)
+			System.out.println("-= Interfaces: " + Arrays.asList(ifList));
+		else
+			System.out.println("-= Interfaces: NONE");
+	}
 
 	public void inspectSuperClass(Class superClass, boolean recursive)
 	{
