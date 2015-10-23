@@ -19,7 +19,8 @@ public class Inspector
 				objectClass = objectClass.getComponentType();
 			}
 			printClassName(objectClass);
-
+			
+			printSuperClass(objectClass, recursive);
 			
 			Class[] ifList = objectClass.getInterfaces();
 			System.out.println("-= Interfaces: " + Arrays.asList(ifList));
@@ -94,10 +95,9 @@ public class Inspector
 				System.out.println(superClass.getName() + "'s Interfaces: " + Arrays.asList(superClass.getInterfaces()));
 				if(!superClass.getSuperclass().getName().equals("java.lang.Object"))
 				{
-					System.out.println("\n----------------SuperClass of " + superClass.getName() + "----------------\n");
+					System.out.println("\n----- SuperClass of the Abstract SuperClass " + superClass.getName() + " -----\n");
 					inspectSuperClass(superClass.getSuperclass(), recursive);
-
-					System.out.println("\n----------------End of SuperClass----------------\n");
+					System.out.println("\n----- End of SuperClass of the Abstract Class -----\n");
 				}
 			}
 			else
@@ -107,6 +107,8 @@ public class Inspector
 			System.out.println("\n--------------------End of SuperClass--------------------\n");
 		}
 	}
+	
+	
 
 	public void inspectSuperClass(Class superClass, boolean recursive)
 	{
