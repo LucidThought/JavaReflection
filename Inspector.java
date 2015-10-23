@@ -24,33 +24,9 @@ public class Inspector
 			
 			listInterfaces(objectClass);
 			
-			Field[] myFields = objectClass.getDeclaredFields();
-			System.out.println("-= Fields: ");
-			if(myFields.length == 0)
-				System.out.println("\t::No Fields Found::");
-			for(int f = 0; f < myFields.length ; f++)
-			{
-				if (!myFields[f].isAccessible())
-					myFields[f].setAccessible(true);
-				System.out.println("\t" + Modifier.toString(myFields[f].getModifiers()) + " " + myFields[f].getType().getSimpleName() + " " + myFields[f].getName());
-				if(!myFields[f].getType().isPrimitive())
-				{
-					System.out.println("\t\tHash Code: " + myFields[f].hashCode());
-				}
-				else
-				{
-					System.out.println("\t\tValue: " + myFields[f].get(obj));
-				}
-			}
+			listFields(objectClass, obj);
 
-			Constructor[] constructors = objectClass.getDeclaredConstructors();
-			System.out.println("-= Constructors: ");
-			for (int c = 0; c < constructors.length; c++)
-			{
-				Class[] constructParams = constructors[c].getParameterTypes();
-				System.out.println("\tConstructor["+c+"] Parameters: " + listTypes(constructParams));
-				System.out.println("\tConstructor["+c+"] Modifiers: " + listModifiers(constructors[c].getModifiers()));
-			}
+			listConstructors(objectClass);
 
 			Method[] myMethods = objectClass.getMethods();
 			System.out.println("-= Methods: ");
@@ -114,6 +90,47 @@ public class Inspector
 			System.out.println("-= Interfaces: " + Arrays.asList(ifList));
 		else
 			System.out.println("-= Interfaces: NONE");
+	}
+
+	public void listFields(Class objectClass, Object obj)
+	{
+		try
+		{
+			Field[] myFields = objectClass.getDeclaredFields();
+			System.out.println("-= Fields: ");
+			if(myFields.length == 0)
+				System.out.println("\t::No Fields Found::");
+			for(int f = 0; f < myFields.length ; f++)
+			{
+				if (!myFields[f].isAccessible())
+					myFields[f].setAccessible(true);
+				System.out.println("\t" + Modifier.toString(myFields[f].getModifiers()) + " " + myFields[f].getType().getSimpleName() + " " + myFields[f].getName());
+				if(!myFields[f].getType().isPrimitive())
+				{
+					System.out.println("\t\tHash Code: " + myFields[f].hashCode());
+				}
+				else
+				{
+					System.out.println("\t\tValue: " + myFields[f].get(obj));
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void listConstructors(Class objectClass)
+	{
+		Constructor[] constructors = objectClass.getDeclaredConstructors();
+		System.out.println("-= Constructors: ");
+		for (int c = 0; c < constructors.length; c++)
+		{
+			Class[] constructParams = constructors[c].getParameterTypes();
+			System.out.println("\tConstructor["+c+"] Parameters: " + listTypes(constructParams));
+			System.out.println("\tConstructor["+c+"] Modifiers: " + listModifiers(constructors[c].getModifiers()));
+		}
 	}
 
 	public void inspectSuperClass(Class superClass, boolean recursive)
