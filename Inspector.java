@@ -2,16 +2,22 @@ import java.lang.reflect.Method;
 import java.lang.reflect.*;
 import java.lang.Class;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Inspector
 {
 	public Class objectClass = null;
+	public ArrayList<Class> visited = new ArrayList<Class>();
 	
 	public void inspect(Object obj, boolean recursive)
 	{
 		try
 		{
 			objectClass = obj.getClass();
+			if(objectClass.isArray())
+			{
+				objectClass = objectClass.getComponentType();
+			}
 			System.out.println("-= Class Name: " + objectClass.getName());
 
 			Class superClass = objectClass.getSuperclass();
@@ -19,8 +25,25 @@ public class Inspector
 			if (!superClass.getName().equals("java.lang.Object"))
 			{
 				System.out.println("\n--------------------SuperClass of " + objectClass.getName() + "--------------------\n"); 
+				if(Modifier.isAbstract(superClass.getModifiers()))
+				{
+					System.out.println("The SuperClass " + superClass.getName() + " is Abstract,\n It's Methods are included inside of " + objectClass.getName() + "'s Methods");
+					System.out.println(superClass.getName() + "'s Interfaces: " + Arrays.asList(superClass.getInterfaces()));
+					if(!superClass.getSuperclass().getName().equals("java.lang.Object"))
+					{
+						System.out.println("\n----------------SuperClass of " + superClass.getName() + "----------------\n");
+						Object superSuperClassObject = superClass.getSuperclass().newInstance();
+						inspect(superSuperClassObject, recursive);
 
-				System.out.println("\n--------------------End of SuperClass --------------------\n");
+						System.out.println("\n----------------End of SuperClass----------------\n");
+					}
+				}
+				else
+				{
+					Object superClassObject = superClass.newInstance();
+					inspect(superClassObject, recursive);
+				}
+				System.out.println("\n--------------------End of SuperClass--------------------\n");
 			}
 
 			Class[] ifList = objectClass.getInterfaces();
@@ -28,7 +51,9 @@ public class Inspector
 			
 			Field[] myFields = objectClass.getDeclaredFields();
 			System.out.println("-= Fields: ");
-			for(int f = 0; f < myFields.length; f++)
+			if(myFields.length == 0)
+				System.out.println("\t::No Fields Found::");
+			for(int f = 0; f < myFields.length ; f++)
 			{
 				if (!myFields[f].isAccessible())
 					myFields[f].setAccessible(true);
@@ -74,8 +99,11 @@ public class Inspector
 			System.out.println("");
 			e.printStackTrace();
 		}
-		
-		
+	}
+
+	public void inspectSuperClass(Class superClass, boolean recursive)
+	{
+
 	}
 	
 	public String listModifiers(int modNum)
