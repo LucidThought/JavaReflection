@@ -6,19 +6,19 @@ import java.util.ArrayList;
 
 public class Inspector
 {
-	public Class objectClass = null;
+
 	public ArrayList<Class> visited = new ArrayList<Class>();
 	
 	public void inspect(Object obj, boolean recursive)
 	{
 		try
 		{
-			objectClass = obj.getClass();
+			Class objectClass = obj.getClass();
 			if(objectClass.isArray())
 			{
 				objectClass = objectClass.getComponentType();
 			}
-			System.out.println("-= Class Name: " + objectClass.getName());
+			printClassName(objectClass);
 
 			Class superClass = objectClass.getSuperclass();
 			System.out.println("-= SuperClass Name: " + superClass.getName());
@@ -97,6 +97,11 @@ public class Inspector
 			System.out.println("");
 			e.printStackTrace();
 		}
+	}
+
+	public void printClassName(Class objectClass)
+	{
+		System.out.println("-= Class Name: " + objectClass.getName());
 	}
 
 	public void inspectSuperClass(Class superClass, boolean recursive)
