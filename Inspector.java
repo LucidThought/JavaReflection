@@ -20,30 +20,7 @@ public class Inspector
 			}
 			printClassName(objectClass);
 
-			Class superClass = objectClass.getSuperclass();
-			System.out.println("-= SuperClass Name: " + superClass.getName());
-			if (!superClass.getName().equals("java.lang.Object"))
-			{
-				System.out.println("\n--------------------SuperClass of " + objectClass.getName() + "--------------------\n"); 
-				if(Modifier.isAbstract(superClass.getModifiers()))
-				{
-					System.out.println("The SuperClass " + superClass.getName() + " is Abstract,\n It's Methods are included inside of " + objectClass.getName() + "'s Methods");
-					System.out.println(superClass.getName() + "'s Interfaces: " + Arrays.asList(superClass.getInterfaces()));
-					if(!superClass.getSuperclass().getName().equals("java.lang.Object"))
-					{
-						System.out.println("\n----------------SuperClass of " + superClass.getName() + "----------------\n");
-						inspectSuperClass(superClass.getSuperclass(), recursive);
-
-						System.out.println("\n----------------End of SuperClass----------------\n");
-					}
-				}
-				else
-				{
-					inspectSuperClass(superClass, recursive);
-				}
-				System.out.println("\n--------------------End of SuperClass--------------------\n");
-			}
-
+			
 			Class[] ifList = objectClass.getInterfaces();
 			System.out.println("-= Interfaces: " + Arrays.asList(ifList));
 			
@@ -102,6 +79,33 @@ public class Inspector
 	public void printClassName(Class objectClass)
 	{
 		System.out.println("-= Class Name: " + objectClass.getName());
+	}
+	
+	public void printSuperClass(Class objectClass, boolean recursive)
+	{
+		Class superClass = objectClass.getSuperclass();
+		System.out.println("-= SuperClass Name: " + superClass.getName());
+		if (!superClass.getName().equals("java.lang.Object"))
+		{
+			System.out.println("\n--------------------SuperClass of " + objectClass.getName() + "--------------------\n"); 
+			if(Modifier.isAbstract(superClass.getModifiers()))
+			{
+				System.out.println("The SuperClass " + superClass.getName() + " is Abstract,\n It's Methods are included inside of " + objectClass.getName() + "'s Methods");
+				System.out.println(superClass.getName() + "'s Interfaces: " + Arrays.asList(superClass.getInterfaces()));
+				if(!superClass.getSuperclass().getName().equals("java.lang.Object"))
+				{
+					System.out.println("\n----------------SuperClass of " + superClass.getName() + "----------------\n");
+					inspectSuperClass(superClass.getSuperclass(), recursive);
+
+					System.out.println("\n----------------End of SuperClass----------------\n");
+				}
+			}
+			else
+			{
+				inspectSuperClass(superClass, recursive);
+			}
+			System.out.println("\n--------------------End of SuperClass--------------------\n");
+		}
 	}
 
 	public void inspectSuperClass(Class superClass, boolean recursive)
