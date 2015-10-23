@@ -28,22 +28,7 @@ public class Inspector
 
 			listConstructors(objectClass);
 
-			Method[] myMethods = objectClass.getMethods();
-			System.out.println("-= Methods: ");
-			Class returnType;
-			for(int i=0; i<myMethods.length; i++)
-			{
-				System.out.println("\t" + myMethods[i].getName() + ":");
-				Class[] exceptionTypes = myMethods[i].getExceptionTypes();
-				System.out.println("\t\tException Types: " + listTypes(exceptionTypes));
-				Class[] parameterTypes = myMethods[i].getParameterTypes();
-				System.out.println("\t\tParameter Types: " + listTypes(parameterTypes));
-				returnType = myMethods[i].getReturnType();
-				System.out.println("\t\tReturn Type: " + returnType.getName());
-				System.out.print("\t\tModifiers: ");
-				System.out.println(listModifiers(myMethods[i].getModifiers()));
-			}
-			
+			showMethods(objectClass);
 		}
 		catch(Exception e)
 		{
@@ -130,6 +115,25 @@ public class Inspector
 			Class[] constructParams = constructors[c].getParameterTypes();
 			System.out.println("\tConstructor["+c+"] Parameters: " + listTypes(constructParams));
 			System.out.println("\tConstructor["+c+"] Modifiers: " + listModifiers(constructors[c].getModifiers()));
+		}
+	}
+
+	public void showMethods(Class objectClass)
+	{
+		Method[] myMethods = objectClass.getMethods();
+		System.out.println("-= Methods: ");
+		Class returnType;
+		for(int i=0; i<myMethods.length; i++)
+		{
+			System.out.println("\t" + myMethods[i].getName() + ":");
+			Class[] exceptionTypes = myMethods[i].getExceptionTypes();
+			System.out.println("\t\tException Types: " + listTypes(exceptionTypes));
+			Class[] parameterTypes = myMethods[i].getParameterTypes();
+			System.out.println("\t\tParameter Types: " + listTypes(parameterTypes));
+			returnType = myMethods[i].getReturnType();
+			System.out.println("\t\tReturn Type: " + returnType.getName());
+			System.out.print("\t\tModifiers: ");
+			System.out.println(listModifiers(myMethods[i].getModifiers()));
 		}
 	}
 
